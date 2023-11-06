@@ -1,0 +1,75 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD start.o
+LOAD main.o
+
+.vectors        0x00000000007e1000       0xb0
+                0x00000000007e1000                __code_start = .
+ *(StartUp)
+ StartUp        0x00000000007e1000       0xb0 start.o
+                0x00000000007e1000                start64
+
+.text           0x00000000007e10b0      0x21c
+ *(.text*)
+ .text          0x00000000007e10b0        0x0 start.o
+ .text          0x00000000007e10b0      0x21c main.o
+                0x00000000007e10b0                core_0
+                0x00000000007e113c                core_1
+                0x00000000007e11cc                core_2
+                0x00000000007e125c                core_3
+
+.iplt           0x00000000007e12cc        0x0
+ .iplt          0x00000000007e12cc        0x0 start.o
+
+.rela.dyn       0x00000000007e12d0        0x0
+ .rela.iplt     0x00000000007e12d0        0x0 start.o
+
+.rodata
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+OUTPUT(output.elf elf64-littleaarch64)
+
+.bss            0x00000000007e12cc        0x0
+ .bss           0x00000000007e12cc        0x0 start.o
+ .bss           0x00000000007e12cc        0x0 main.o
+
+.data           0x00000000007e12cc        0x0
+ .data          0x00000000007e12cc        0x0 start.o
+ .data          0x00000000007e12cc        0x0 main.o
+
+.igot.plt       0x00000000007e12d0        0x0
+ .igot.plt      0x00000000007e12d0        0x0 start.o
+
+.debug_line     0x0000000000000000       0xcb
+ .debug_line    0x0000000000000000       0x5d start.o
+ .debug_line    0x000000000000005d       0x6e main.o
+
+.debug_info     0x0000000000000000      0x2c5
+ .debug_info    0x0000000000000000       0x72 start.o
+ .debug_info    0x0000000000000072      0x253 main.o
+
+.debug_abbrev   0x0000000000000000       0x7d
+ .debug_abbrev  0x0000000000000000       0x14 start.o
+ .debug_abbrev  0x0000000000000014       0x69 main.o
+
+.debug_aranges  0x0000000000000000       0x60
+ .debug_aranges
+                0x0000000000000000       0x30 start.o
+ .debug_aranges
+                0x0000000000000030       0x30 main.o
+
+.debug_str      0x0000000000000000       0xfd
+ .debug_str     0x0000000000000000       0xfd main.o
+                                        0x117 (size before relaxing)
+
+.comment        0x0000000000000000       0x2d
+ .comment       0x0000000000000000       0x2d main.o
+                                         0x2e (size before relaxing)
+
+.debug_frame    0x0000000000000000       0x90
+ .debug_frame   0x0000000000000000       0x90 main.o
